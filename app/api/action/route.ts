@@ -6,7 +6,7 @@ export const GET = async (req: NextRequest) => {
   const evmActionMetadata: EVMAction = {
     title: "Privy Login EVM Action",
     description:
-      "This is a sample EVM action integrating Dynamic 1-click Login",
+      "This is a sample EVM action integrating Privy 1-click Login",
     image: `${appURL()}/landing.png`,
     links: [
       {
