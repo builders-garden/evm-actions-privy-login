@@ -3,11 +3,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { NextUIProvider } from "@nextui-org/react";
-import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
-import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector";
-import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { WagmiProvider, createConfig, http } from "wagmi";
 import { baseSepolia } from "viem/chains";
+import { PrivyProvider } from "@privy-io/react-auth";
 
 const config = createConfig({
   chains: [baseSepolia],
@@ -21,19 +19,26 @@ const queryClient = new QueryClient();
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
-    <DynamicContextProvider
-      settings={{
-        environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID!,
-        walletConnectors: [EthereumWalletConnectors],
+    <PrivyProvider
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}
+      config={{
+        // Customize Privy's appearance in your app
+        appearance: {
+          theme: "light",
+          accentColor: "#676FFF",
+          logo: "https://your-logo-url",
+        },
+        // Create embedded wallets for users who don't have a wallet
+        embeddedWallets: {
+          createOnLogin: "users-without-wallets",
+        },
       }}
     >
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <DynamicWagmiConnector>
-            <NextUIProvider>{children}</NextUIProvider>
-          </DynamicWagmiConnector>
+          <NextUIProvider>{children}</NextUIProvider>
         </QueryClientProvider>
       </WagmiProvider>
-    </DynamicContextProvider>
+    </PrivyProvider>
   );
 }
