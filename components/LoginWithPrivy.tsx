@@ -17,7 +17,9 @@ export default function LoginWithPrivy() {
     storage: new LocalStorage(),
   });
 
-  const { connectOrCreateWallet, authenticated } = usePrivy();
+
+
+  const { connectOrCreateWallet, authenticated, user } = usePrivy();
   const { wallets } = useWallets();
 
   useEffect(() => {
@@ -46,9 +48,9 @@ export default function LoginWithPrivy() {
           Login
         </button>
       )}
-      {authenticated && wallets?.length > 0 && (
+      {authenticated && user && (
         <p className="text-black">
-          Welcome back <span className="font-bold">{wallets[0].address}</span>
+          Welcome back <span className="font-bold">{user.wallet?.address}</span>
         </p>
       )}
     </>
