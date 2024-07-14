@@ -20,7 +20,6 @@ export default function LoginWithPrivy() {
 
 
   const { connectOrCreateWallet, authenticated, user } = usePrivy();
-  const { wallets } = useWallets();
 
   useEffect(() => {
     const signInUsingParams = async () => {
